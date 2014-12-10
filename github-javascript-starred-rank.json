@@ -5,115 +5,96 @@
     {
       "name": "bootstrap",
       "stargazers_count": 62315,
-      "language": "JavaScript",
       "user": "twbs"
     },
     {
       "name": "jquery",
       "stargazers_count": 27229,
-      "language": "JavaScript",
       "user": "jquery"
     },
     {
       "name": "node",
       "stargazers_count": 26461,
-      "language": "JavaScript",
       "user": "joyent"
     },
     {
       "name": "d3",
       "stargazers_count": 20881,
-      "language": "JavaScript",
       "user": "mbostock"
     },
     {
       "name": "impress.js",
       "stargazers_count": 18687,
-      "language": "JavaScript",
       "user": "bartaz"
     },
     {
       "name": "angular.js",
       "stargazers_count": 18208,
-      "language": "JavaScript",
       "user": "angular"
     },
     {
       "name": "backbone",
       "stargazers_count": 16550,
-      "language": "JavaScript",
       "user": "jashkenas"
     },
     {
       "name": "foundation",
       "stargazers_count": 15031,
-      "language": "JavaScript",
       "user": "zurb"
     },
     {
       "name": "jQuery-File-Upload",
       "stargazers_count": 14374,
-      "language": "JavaScript",
       "user": "blueimp"
     },
     {
       "name": "chosen",
       "stargazers_count": 14268,
-      "language": "JavaScript",
       "user": "harvesthq"
     },
     {
       "name": "three.js",
       "stargazers_count": 13726,
-      "language": "JavaScript",
       "user": "mrdoob"
     },
     {
       "name": "brackets",
       "stargazers_count": 13630,
-      "language": "JavaScript",
       "user": "adobe"
     },
     {
       "name": "moment",
       "stargazers_count": 12564,
-      "language": "JavaScript",
       "user": "moment"
     },
     {
       "name": "express",
       "stargazers_count": 11623,
-      "language": "JavaScript",
       "user": "visionmedia"
     },
     {
       "name": "Modernizr",
       "stargazers_count": 10923,
-      "language": "JavaScript",
       "user": "Modernizr"
     },
     {
       "name": "meteor",
       "stargazers_count": 10815,
-      "language": "JavaScript",
       "user": "meteor"
     },
     {
       "name": "socket.io",
       "stargazers_count": 10149,
-      "language": "JavaScript",
       "user": "LearnBoost"
     },
     {
       "name": "underscore",
       "stargazers_count": 10071,
-      "language": "JavaScript",
       "user": "jashkenas"
     },
     {
       "name": "less.js",
       "stargazers_count": 9686,
-      "language": "JavaScript",
       "user": "less"
     }
   ]
