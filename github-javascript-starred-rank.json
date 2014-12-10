@@ -1,6 +1,6 @@
 {
   "name": "JavaScript",
-  "data_from":"http://adereth.github.io/data/lang-map.json",
+  "data_source":"http://adereth.github.io/data/lang-map.json",
   "children": [
     {
       "name": "bootstrap",
