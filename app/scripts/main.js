@@ -1,11 +1,22 @@
 (function(){
-    "use strict";
+  "use strict";
 
-    d3.json("data/github-javascript-starred-rank.json",function(data){
-        draw(data);
-    })
+  d3.json("data/github-javascript-starred-rank.json",function(data){
+    drawList(data);
+    drawTable(data);
+    drawPie(data);
+    drawBars(data);
+  })
 
-    function draw(data){
-        console.log(data);
-    }
+  function drawList(data){
+  }
+
+  function drawTable(data){
+  }
+
+  function drawPie(data){
+  }
+
+  function drawBars(data){
+  }
 })();
