@@ -6,3 +6,16 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
+.pretty{
+  list-style: none;
+  padding:10px;
+}
+
+.aligned{
+  margin-left:50px;
+}
+
+.shadowed{
+  text-shadow: 3px 3px #444;
+}
