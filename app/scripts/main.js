@@ -100,5 +100,67 @@
   }
 
   function drawBars(data){
+    var w = document.getElementById("bars").clientWidth,
+      h = 400,
+      margin = {top:20, right: 20, bottom: 35, left:35};
+
+    data.sort(function(a,b){
+      return a.stargazers_count - b.stargazers_count;
+    });
+
+    var maxValue = d3.max(data,function(d){return d.stargazers_count});
+    var minValue = d3.min(data,function(d){return d.stargazers_count});
+
+    console.log(maxValue,minValue, margin.bottom, h - margin.top);
+
+    var scaleY = d3.scale.linear()
+                  .domain([minValue, maxValue])
+                  .range([margin.bottom, h - margin.top - margin.bottom]);
+
+    var colorScale = d3.scale.linear()
+      .domain([minValue,maxValue])
+      .range(["#bcb5b5","#ff0000"]);
+
+    console.log(maxValue);
+
+    var vis = d3.select("#bars")
+      .append("svg")
+      .attr({
+        width:w,
+        height:h
+      });
+
+    var barsGroup = vis.append("g")
+      .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+
+    barsGroup.selectAll(".bar")
+      .data(data)
+      .enter()
+      .append("rect")
+      .classed("bar",true)
+      .attr({
+        height:function(d){
+          return scaleY(d.stargazers_count);
+          
+        },
+        fill:function(d){
+          return colorScale(d.stargazers_count);
+        },
+        width:20,
+        x:function(d,i){
+          return 22 * i;
+        },
+        y:function(d){
+          return h - margin.bottom - this.height.baseVal.value;
+        }
+      })
+
+
+
+
+
+
+
+
   }
 })();
