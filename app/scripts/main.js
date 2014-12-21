@@ -2,9 +2,8 @@
   "use strict";
 
   d3.json("data/github-javascript-starred-rank.json",function(data){
-    drawList(data.children);
-    drawTable(data.children);
-    drawPie(data.children);
+    /*drawList(data.children);
+    drawTable(data.children);*/
     drawBars(data.children);
   })
 
@@ -43,85 +42,56 @@
     tdTr.append("td").text(function(d){return d.stargazers_count});
   }
 
-  function drawPie(data){
-
-    var w = document.getElementById("pieChart").clientWidth,
-    h = 400,
-    r = w/ 4,
-    color = d3.scale.category20b(),
-      top = r + 60,
-      left = r + (w-r)/4;
-
-    var vis = d3.select("#pieChart")
-      .append("svg:svg")              //create the SVG element inside the <body>
-      .data([data])                   //associate our data with the document
-      .attr("width", w)           //set the width and height of our visualization (these will be attributes of the <svg> tag
-      .attr("height", h)
-      .append("svg:g")                //make a group to hold our pie chart
-      .attr("transform", "translate(" + (left) + "," + (top) + ")")    //move the center of the pie chart from 0, 0 to radius, radius
-
-    var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
-      .outerRadius(r);
-
-    var pie = d3.layout.pie()           //this will create arc data for us given a list of values
-      .value(function(d) { return d.stargazers_count; });    //we must tell it out to access the value of each element in our data array
-
-    var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
-      .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties)
-      .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
-      .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
-      .attr("class", "slice");    //allow us to style things in the slices (like text)
-
-    arcs.append("svg:path")
-      .attr("fill", function(d, i) { return color(i); } ) //set the color for each slice to be chosen from the color function defined above
-      .attr("d", arc);                                    //this creates the actual SVG path using the associated data (pie) with the arc drawing function
-
-    arcs.append("svg:text")                                     //add a label to each slice
-      .attr("transform", function(d) {                    //set the label's origin to the center of the arc
-        //we have to make sure to set these before calling arc.centroid
-        d.innerRadius = r*1.5;
-        d.outerRadius = r;
-        return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
-      })
-      .attr("text-anchor", "middle")                          //center the text on it's origin
-      .text(function(d, i) { return data[i].name; });        //get the label from our original data array
-
-    var text = arcs.append("svg:text")                                     //add a label to each slice
-      .attr("transform", function(d) {                    //set the label's origin to the center of the arc
-        //we have to make sure to set these before calling arc.centroid
-        d.innerRadius = r*1.5;
-        d.outerRadius = r;
-        return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
-      })
-      .attr("text-anchor", "middle")                          //center the text on it's origin
-      .text(function(d, i) { return data[i].name; });        //get the label from our original data array
-
-
-  }
-
   function drawBars(data){
+
+    /**
+     * follow the instructions in order to create vertical bars graph
+     *
+     * 1. create the config variables (width, height, margin, minValue, maxValue)
+     * 2. sort the data according to stargazers_count (use data.sort)
+     * 3. create your svg according the width and the height
+     * 4. create a group for the bars
+     *    4.1 position the group according the margin.left & margin.top (use transform css style)
+     * 5. add to the group the bars
+     *    5.1 height - add linear scale for the bars height
+     *    5.2 width - use the width of 20 (temp)
+     *    5.3 add #ff0000 color to the bars
+     *    5.3 x - use the index of the data
+     *    5.4 y - fix the bars - make them be at the bottom
+     *    5.5 fill - add additional linear scale for the colors range = ["#bcb5b5","#ff0000"]
+     *    5.6 fix width and the position of the bars by adding ordinal scale (with rangeRoundBands) - use gap of 0.1
+     * 6. add transition to animate the bars (use the y attribute)
+     * 7. add mouseover & mouseout events to change the bar color to #c4af46 (use a global variable for saving the bar color);
+     * 8. Add tooltip on mouse over
+     *    8.0 add the class 'tooltip' to the div (look at the css file)
+     *    8.1 append a div to the body and add a style to it of the opacity of 0
+     *    8.2 on mouseover assign the data to the div (use html)
+     *    8.3 change the position (left & top) of the div according to d3.event.pageX * d3.event.pageY
+     * 9. add axes:
+     *    9.1 add x axis - use
+     */
+
     var w = document.getElementById("bars").clientWidth,
-      h = 400,
-      margin = {top:20, right: 20, bottom: 35, left:35};
+      h = 500,
+      margin = {top:20, right: 20, bottom: 180, left:50};
 
     data.sort(function(a,b){
       return a.stargazers_count - b.stargazers_count;
     });
-
     var maxValue = d3.max(data,function(d){return d.stargazers_count});
     var minValue = d3.min(data,function(d){return d.stargazers_count});
 
-    console.log(maxValue,minValue, margin.bottom, h - margin.top);
-
     var scaleY = d3.scale.linear()
-                  .domain([minValue, maxValue])
-                  .range([margin.bottom, h - margin.top - margin.bottom]);
+      .domain([minValue, maxValue])
+      .range([margin.bottom, h - margin.top]);
 
     var colorScale = d3.scale.linear()
       .domain([minValue,maxValue])
       .range(["#bcb5b5","#ff0000"]);
 
-    console.log(maxValue);
+    var scaleX = d3.scale.ordinal()
+      .domain(data.map(function(d){return d.name;}))
+      .rangeRoundBands([margin.left, w-margin.right-margin.left], .1);
 
     var vis = d3.select("#bars")
       .append("svg")
@@ -130,10 +100,10 @@
         height:h
       });
 
-    var barsGroup = vis.append("g")
+    var graph = vis.append("g")
       .attr("transform","translate(" + margin.left + "," + margin.top + ")");
 
-    barsGroup.selectAll(".bar")
+    var bar = graph.selectAll(".bar")
       .data(data)
       .enter()
       .append("rect")
@@ -141,23 +111,89 @@
       .attr({
         height:function(d){
           return scaleY(d.stargazers_count);
-          
         },
         fill:function(d){
           return colorScale(d.stargazers_count);
         },
-        width:20,
-        x:function(d,i){
-          return 22 * i;
+        width:function(d){
+          return scaleX.rangeBand();
         },
-        y:function(d){
-          return h - margin.bottom - this.height.baseVal.value;
-        }
+        x:function(d,i){
+          return scaleX(d.name);
+        },
+        y:h
+      });
+
+    bar.transition()
+      .attr({
+        y: function(d){ return h - margin.bottom - scaleY(d.stargazers_count) - margin.top;}
+      })
+      .duration(1500)
+      .delay(500)
+      .ease("elastic")
+
+    var tooltip = d3.select("body")
+      .append("div")
+      .classed("tooltip",true)
+      .style("opacity",0);
+
+    var lastBarColor = "";
+    bar.on("mouseover",function(d){
+      lastBarColor = d3.select(this).attr("fill");
+      d3.select(this).attr("fill","#c4af46");
+
+      d3.select(".tooltip")
+        .style({
+          top: d3.event.pageY + "px",
+          left: (d3.event.pageX + 30) + "px",
+          opacity:1
+        })
+        .html(
+        "<div>Name: " + d.name + "</div>" +
+        "<div>Author: " + d.user + "</div>" +
+        "<div>Stars: " + d.stargazers_count + "</div>"
+      )
+    })
+      .on("mouseout",function(){
+        d3.select(this).attr("fill",lastBarColor);
+        d3.select(".tooltip")
+          .style("opacity",0);
       })
 
 
+    var xAxis = d3.svg.axis()
+      .scale(scaleX)
+      .orient("bottom");
 
 
+    vis.append("g")
+      .call(xAxis)
+      .attr("transform",function(){
+        return "translate(" + margin.left + "," + (h - margin.bottom) + ")";
+      })
+      .selectAll("text")
+      .attr("y", 0)
+      .attr("x", 10)
+      .attr("transform", "rotate(75)")
+      .style({
+        "text-anchor":"start",
+        "font-size":20
+      });
+
+    var yAxisScale = d3.scale.linear()
+      .domain([maxValue, minValue])
+      .range([margin.bottom, h - margin.top]);
+
+    var yAxis = d3.svg.axis()
+      .scale(yAxisScale)
+      .tickSize(1)
+      .orient("left");
+
+    vis.append("g")
+      .call(yAxis)
+      .attr("transform",function(){
+        return "translate(" + (margin.left) + "," + (-1* margin.bottom + margin.top) + ")";
+      });
 
 
 
