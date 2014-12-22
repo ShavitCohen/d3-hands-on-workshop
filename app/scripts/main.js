@@ -16,12 +16,7 @@
      * 3.change the text of the li to d.name - d.stargazers_count
      */
 
-    d3.select("#regularList").append("ol")
-      .selectAll("li")
-      .data(data)
-      .enter()
-      .append("li")
-      .text(function(d){return d.name + " - " + d.stargazers_count;});
+   
 
   }
 
@@ -38,28 +33,7 @@
      *    table to be prettier
      */
 
-    var table = d3.select("#regularTable")
-      .append("table")
-      .classed({"table":true, "table-striped":true});
-    var thTr = table.append("thead").
-      append("tr");
 
-    thTr.append("th").text("#");
-    thTr.append("th").text("Project Name");
-    thTr.append("th").text("Author");
-    thTr.append("th").text("Stars");
-
-    var tdTr = table.append("tbody")
-      .selectAll("tr.data")
-      .data(data)
-      .enter()
-      .append("tr");
-
-
-    tdTr.append("td").text(function(d,i){return (i+1) + "."});
-    tdTr.append("td").text(function(d){return d.name});
-    tdTr.append("td").text(function(d){return d.user});
-    tdTr.append("td").text(function(d){return d.stargazers_count});
   }
 
   function drawBars(data){
@@ -100,129 +74,7 @@
      *    10.4 fix the direction of the yAxis by creating a scale similar to yScale, but with switch values.
      */
 
-    var w = document.getElementById("bars").clientWidth,
-      h = 500,
-      margin = {top:20, right: 20, bottom: 180, left:60};
 
-    data.sort(function(a,b){
-      return a.stargazers_count - b.stargazers_count;
-    });
-    var maxValue = d3.max(data,function(d){return d.stargazers_count});
-    var minValue = d3.min(data,function(d){return d.stargazers_count});
-
-    var yScale = d3.scale.linear()
-      .domain([minValue, maxValue])
-      .range([margin.bottom, h - margin.top]);
-
-    var colorScale = d3.scale.linear()
-      .domain([minValue,maxValue])
-      .range(["#bcb5b5","#ff0000"]);
-
-    var xScale = d3.scale.ordinal()
-      .domain(data.map(function(d){return d.name;}))
-      .rangeRoundBands([margin.left, w-margin.right-margin.left], .1);
-
-    var vis = d3.select("#bars")
-      .append("svg")
-      .attr({
-        width:w,
-        height:h
-      });
-
-    var barsContainer = vis.append("g")
-      .attr("transform","translate(" + margin.left + "," + margin.top + ")");
-
-    var bar = barsContainer.selectAll(".bar")
-      .data(data)
-      .enter()
-      .append("rect")
-      .classed("bar",true)
-      .attr({
-        height:function(d){
-          return yScale(d.stargazers_count);
-        },
-        fill:function(d){
-          return colorScale(d.stargazers_count);
-        },
-        width:function(d){
-          return xScale.rangeBand();
-        },
-        x:function(d,i){
-          return xScale(d.name);
-        },
-        y:h
-      });
-
-    bar.transition()
-      .duration(1500)
-      .delay(500)
-      .attr({
-        y: function(d){ return h - margin.bottom - yScale(d.stargazers_count) - margin.top;}
-      })
-      .ease("elastic")
-
-    var tooltip = d3.select("body")
-      .append("div")
-      .classed("tooltip",true)
-      .style("opacity",0);
-
-    var lastBarColor = "";
-    bar.on("mouseover",function(d){
-      lastBarColor = d3.select(this).attr("fill");
-      d3.select(this).attr("fill","#c4af46");
-
-      d3.select(".tooltip")
-        .style({
-          top: d3.event.pageY + "px",
-          left: (d3.event.pageX + 30) + "px",
-          opacity:1
-        })
-        .html(
-        "<div class='tooltipHeader'>Project Name: " + d.name + "</div>" +
-        "<div>Author: " + d.user + "</div>" +
-        "<div>Stars: " + d.stargazers_count + "</div>"
-      )
-    })
-      .on("mouseout",function(){
-        d3.select(this).attr("fill",lastBarColor);
-        d3.select(".tooltip")
-          .style("opacity",0);
-      })
-
-
-    var xAxis = d3.svg.axis()
-      .scale(xScale)
-      .orient("bottom");
-
-
-    vis.append("g")
-      .call(xAxis)
-      .attr("transform",function(){
-        return "translate(" + margin.left + "," + (h - margin.bottom) + ")";
-      })
-      .selectAll("text")
-      .attr("y", 0)
-      .attr("x", 10)
-      .attr("transform", "rotate(75)")
-      .style({
-        "text-anchor":"start",
-        "font-size":20
-      });
-
-    var yAxisScale = d3.scale.linear()
-      .domain([maxValue, minValue])
-      .range([margin.bottom, h - margin.top]);
-
-    var yAxis = d3.svg.axis()
-      .scale(yAxisScale)
-      .ticks(10)
-      .orient("left");
-
-    vis.append("g")
-      .call(yAxis)
-      .attr("transform",function(){
-        return "translate(" + (margin.left) + "," + (-1* margin.bottom + margin.top) + ")";
-      });
 
   }
 })();
