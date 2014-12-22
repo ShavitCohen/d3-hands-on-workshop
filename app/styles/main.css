@@ -8,3 +8,8 @@ html{
   padding:10px;
   font-size:14pt;
 }
+
+.tooltip .tooltipHeader{
+  color:yellow;
+  font-weight: bold;
+}
