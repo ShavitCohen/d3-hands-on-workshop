@@ -100,7 +100,131 @@
      *    10.4 fix the direction of the yAxis by creating a scale similar to yScale, but with switch values.
      */
 
- 
+
 
   }
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*var xScale = d3.scale.ordinal()
+  .domain(data.map(function(d){return d.name;}))
+  .rangeRoundBands([margin.left, w-margin.right-margin.left], .1);*/
+
+/*bar.transition()
+  .duration(1500)
+  .delay(500)
+  .attr({
+    y: function(d){ return h - margin.bottom - yScale(d.stargazers_count) - margin.top;}
+  })
+  .ease("elastic")*/
+
+
+/*
+var xAxis = d3.svg.axis()
+  .scale(xScale)
+  .orient("bottom");
+
+
+vis.append("g")
+  .call(xAxis)
+  .attr("transform",function(){
+    return "translate(" + margin.left + "," + (h - margin.bottom) + ")";
+  })
+  .selectAll("text")
+  .attr("y", 0)
+  .attr("x", 10)
+  .attr("transform", "rotate(75)")
+  .style({
+    "text-anchor":"start",
+    "font-size":20
+  });
+
+var yAxisScale = d3.scale.linear()
+  .domain([maxValue, minValue])
+  .range([margin.bottom, h - margin.top]);
+
+var yAxis = d3.svg.axis()
+  .scale(yAxisScale)
+  .ticks(10)
+  .orient("left");
+
+vis.append("g")
+  .call(yAxis)
+  .attr("transform",function(){
+    return "translate(" + (margin.left) + "," + (-1* margin.bottom + margin.top) + ")";
+  });*/
