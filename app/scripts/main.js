@@ -12,8 +12,10 @@
      * Follow the instruction in order to create a list
      *
      * 1.select the #regularList and append ol
-     * 2.on the .enter() append an li
-     * 3.change the text of the li to d.name - d.stargazers_count
+     * 2.selectAll li
+     * 3.bind the data --> .data(data)
+     * 4.on the .enter() append an li
+     * 5.change the text of the li to d.name - d.stargazers_count
      */
 
     d3.select("#regularList").append("ol")
